@@ -39,27 +39,54 @@ def main(model_name, batch_size, epochs, learning_rate, conv_algo, performance, 
         else:
             _,_ = evaluate(model, test_images, test_labels, save_path=f'saved_models/{model_name}')
 
+#if __name__ == '__main__':
+
+    #import argparse
+    #parser = argparse.ArgumentParser(description='Train a CNN model on CIFAR-100.')
+    #parser.add_argument('--model', type=str, choices=['AlexNet', 'TinyCNN', 'OIANet', 'ResNet18'], default='OIANet',
+    #                    help='Model to train (default: OIANet)')
+    #parser.add_argument('--batch_size', type=int, default=8, help='Batch size for training (default: 8)')
+    #parser.add_argument('--epochs', type=int, default=10, help='Number of epochs for training (default: 10)')
+    #parser.add_argument('--learning_rate', type=float, default=0.01, help='Learning rate for training (default: 0.01)')
+    #parser.add_argument('--performance', action='store_true', help='Enable performance measurement')
+    #parser.add_argument('--eval_only', action='store_true', help='Enable evaluation-only mode')
+    #parser.add_argument('--conv_algo', type=int, default=0, choices=[0,1,2], help='Conv2d algorithm 0-direct, 1-im2col, 2-im2colfused (default: 0)')
+    
+    #args = parser.parse_args()
+    
+    #model_name = args.model
+    #batch_size = args.batch_size
+    #epochs = args.epochs
+    #learning_rate = args.learning_rate
+    #performance = args.performance
+    #conv_algo = args.conv_algo
+  #  eval_only = args.eval_only
+
+    
+   # main(model_name, batch_size, epochs, learning_rate, conv_algo, performance, eval_only)
+
 if __name__ == '__main__':
 
     import argparse
     parser = argparse.ArgumentParser(description='Train a CNN model on CIFAR-100.')
+    
+    # 1. Cambiamos el default a 'OIANet' (ya lo tenías, pero asegúrate)
     parser.add_argument('--model', type=str, choices=['AlexNet', 'TinyCNN', 'OIANet', 'ResNet18'], default='OIANet',
                         help='Model to train (default: OIANet)')
+    
     parser.add_argument('--batch_size', type=int, default=8, help='Batch size for training (default: 8)')
     parser.add_argument('--epochs', type=int, default=10, help='Number of epochs for training (default: 10)')
     parser.add_argument('--learning_rate', type=float, default=0.01, help='Learning rate for training (default: 0.01)')
-    parser.add_argument('--performance', action='store_true', help='Enable performance measurement')
+    
+    # 2. Para que --performance esté activo por defecto, cambiamos action y añadimos default
+    parser.add_argument('--performance', action='store_false', default=True, help='Enable performance measurement')
+    
+    # 3. Cambiamos el default de conv_algo a 2
     parser.add_argument('--eval_only', action='store_true', help='Enable evaluation-only mode')
-    parser.add_argument('--conv_algo', type=int, default=0, choices=[0,1,2], help='Conv2d algorithm 0-direct, 1-im2col, 2-im2colfused (default: 0)')
+    parser.add_argument('--conv_algo', type=int, default=2, choices=[0,1,2], 
+                        help='Conv2d algorithm 0-direct, 1-im2col, 2-im2colfused (default: 2)')
     
     args = parser.parse_args()
     
-    model_name = args.model
-    batch_size = args.batch_size
-    epochs = args.epochs
-    learning_rate = args.learning_rate
-    performance = True # FOR OIANET performance
-    conv_algo = args.conv_algo # PISTA: esto sirve para seleccionar nuevos algoritmos de convolucion
-    eval_only = False # FOR OIANET performance
-    
-    main(model_name, batch_size, epochs, learning_rate, conv_algo, performance, eval_only)
+    # El resto del código se mantiene igual...
+    main(args.model, args.batch_size, args.epochs, args.learning_rate, args.conv_algo, args.performance, args.eval_only)

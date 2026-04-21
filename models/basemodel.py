@@ -18,7 +18,11 @@ class BaseModel:
             layer_time = time.time() - layer_start_time
             if curr_iter == 0:
                 # Calculate performance metrics
-                images_per_second = imgs / layer_time
+               # images_per_second = imgs / layer_time
+                if layer_time > 0:
+                    images_per_second = imgs / layer_time
+                else:
+                    images_per_second = float('inf')
                 print(f"{layer.__class__.__name__};{imgs};{layer_time:.4f};{images_per_second:.2f}")
         if curr_iter == 0:
             print("==========================================")
